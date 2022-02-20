@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../service/w_service_provider.dart';
-import 'w_home_page.dart';
+import 'w_initializing_screen.dart';
 
 class WApp extends StatefulWidget {
   const WApp({Key? key}) : super(key: key);
@@ -73,7 +73,7 @@ class WAppState extends State<WApp> {
         supportedLocales: const [Locale('ru')],
         color: Colors.purple.shade400,
         theme: theme,
-        home: const WHomePage(),
+        home: WInitializingScreen(WServiceProvider.of(context)),
       );
 
   @override
