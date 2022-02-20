@@ -26,10 +26,23 @@ class _WChatScreenState extends State<WChatScreen> {
   void initState() {
     super.initState();
     service = widget.service;
+    tcUserName = TextEditingController(
+      text: service.sp.getString('user_name') ?? '',
+    );
+    tcUserName.addListener(() => service.sp.setString('user_name', userName));
     refresh();
   }
 
-  String userName = '';
+  @override
+  void dispose() {
+    tcUserName.dispose();
+    vnLoading.dispose();
+    vnSending.dispose();
+    super.dispose();
+  }
+
+  late TextEditingController tcUserName;
+  String get userName => tcUserName.text;
   String msg = '';
   GeolocationData? geo;
   int msgId = 0;
@@ -136,7 +149,7 @@ class _WChatScreenState extends State<WChatScreen> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: TextField(
-            onChanged: (value) => userName = value,
+            controller: tcUserName,
             decoration: const InputDecoration(
               icon: Icon(Icons.account_circle),
               border: InputBorder.none,

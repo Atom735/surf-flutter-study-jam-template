@@ -8,7 +8,8 @@ class WChatMsgTile extends StatelessWidget {
 
   final ChatMessageData data;
 
-  static final _reUri = RegExp(r'(?:\S+\:\/\/)?\S+(?:\.\S+)*(?:\/\S*)*');
+  static final _reUri = RegExp(
+      r'(?:\S+\:\/\/)?\S+(?:\.\S+)*\.(?:ru|com|рф|org|info|net|dev|бел)(?:\/\S*)*');
 
   Widget msgBuilder(BuildContext context) {
     final msg = data.message;
@@ -26,7 +27,7 @@ class WChatMsgTile extends StatelessWidget {
           onEnter: (_) => link = uri,
           onExit: (_) => link = '',
         ));
-      i0 = mUri.start;
+      i0 = mUri.end;
     }
     spans.add(TextSpan(text: msg.substring(i0)));
 

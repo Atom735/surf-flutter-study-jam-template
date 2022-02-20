@@ -6,7 +6,7 @@ import 'chat_message_data.dart';
 /// The only tool needed to implement the chat.
 abstract class IChatRepository {
   static const int maxNameLength = 40;
-  static const int maxMessageLength = 80;
+  static const int maxMessageLength = 256;
 
   Future<List<ChatMessageData>> getMessages(int limit,
       [TimeStamp? lastTimeStamp]);
