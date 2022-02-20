@@ -20,18 +20,48 @@ class _WChatScreenState extends State<WChatScreen> {
   void initState() {
     super.initState();
     repo = widget.repo;
-    repo.messages.then(messagesHandle);
+    refresh();
   }
 
+  String userName = '';
+
   List<ChatMessageData> msgs = [];
+  final vnLoading = ValueNotifier(false);
 
   void messagesHandle(List<ChatMessageData> data) {
     msgs = data;
+    vnLoading.value = false;
     setState(() {});
+  }
+
+  void refresh() {
+    vnLoading.value = true;
+    repo.messages.then(messagesHandle);
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: TextField(
+            onChanged: (value) => userName = value,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.account_circle),
+              border: InputBorder.none,
+              hintText: 'Имя пользователя',
+            ),
+          ),
+          actions: [
+            IconButton(onPressed: refresh, icon: const Icon(Icons.refresh)),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(4),
+            child: ValueListenableBuilder<bool>(
+              valueListenable: vnLoading,
+              builder: (context, value, child) =>
+                  value ? const LinearProgressIndicator() : const SizedBox(),
+            ),
+          ),
+        ),
         body: Column(
           children: [
             Expanded(
