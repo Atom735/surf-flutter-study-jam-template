@@ -1,3 +1,4 @@
+import '../common/types.dart';
 import 'chat_message_data.dart';
 
 /// Chat data holder.
@@ -7,6 +8,7 @@ abstract class IChatRepository {
   static const int maxNameLength = 40;
   static const int maxMessageLength = 80;
 
-  Future<List<ChatMessageData>> get messages;
+  Future<List<ChatMessageData>> getMessages(int limit,
+      [TimeStamp? lastTimeStamp]);
   Future<void> sendMessage(ChatMessageData data);
 }

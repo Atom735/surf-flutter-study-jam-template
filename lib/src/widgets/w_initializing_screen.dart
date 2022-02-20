@@ -26,7 +26,7 @@ class _WInitializingPageState extends State<WInitializingScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => WChatScreen(widget.service.chatRepo),
+        builder: (context) => WChatScreen(widget.service),
       ),
     );
   }

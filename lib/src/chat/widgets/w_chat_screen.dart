@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../../common/geolocation_data.dart';
+import '../../service/service_interface.dart';
 import '../../widgets/w_error_msgbox.dart';
 import '../chat_message_data.dart';
 import '../chat_repository_interface.dart';
@@ -10,21 +11,21 @@ import '../chat_user_data.dart';
 import 'w_chat_msg_tile.dart';
 
 class WChatScreen extends StatefulWidget {
-  const WChatScreen(this.repo, {Key? key}) : super(key: key);
+  const WChatScreen(this.service, {Key? key}) : super(key: key);
 
-  final IChatRepository repo;
+  final IService service;
 
   @override
   State<WChatScreen> createState() => _WChatScreenState();
 }
 
 class _WChatScreenState extends State<WChatScreen> {
-  late IChatRepository repo;
+  late IService service;
 
   @override
   void initState() {
     super.initState();
-    repo = widget.repo;
+    service = widget.service;
     refresh();
   }
 
@@ -54,14 +55,14 @@ class _WChatScreenState extends State<WChatScreen> {
   void refresh() {
     vnLoading.value = true;
     setState(() {});
-    repo.messages.then(
-      messagesHandle,
-      onError: (e) => WErrorMsgBox.show(
-        context,
-        'Ошибка при получении сообщений',
-        e.toString(),
-      ),
-    );
+    service.getMessages().then(
+          messagesHandle,
+          onError: (e) => WErrorMsgBox.show(
+            context,
+            'Ошибка при получении сообщений',
+            e.toString(),
+          ),
+        );
   }
 
   void sendMessage([String _ = '']) {
@@ -86,7 +87,7 @@ class _WChatScreenState extends State<WChatScreen> {
     setState(() {});
 
     if (geo != null) {
-      repo
+      service
           .sendMessage(
               ChatMessageGeolocatedData(ChatUserData(userName), msg, geo))
           .then(
@@ -98,7 +99,7 @@ class _WChatScreenState extends State<WChatScreen> {
             ),
           );
     } else {
-      repo.sendMessage(ChatMessageData(ChatUserData(userName), msg)).then(
+      service.sendMessage(ChatMessageData(ChatUserData(userName), msg)).then(
             sendHandle,
             onError: (e) => WErrorMsgBox.show(
               context,

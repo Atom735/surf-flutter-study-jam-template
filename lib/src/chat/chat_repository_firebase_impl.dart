@@ -2,8 +2,10 @@ import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common/geolocation_data.dart';
+import '../common/types.dart';
 import 'chat_message_data.dart';
 import 'chat_repository_exceptions.dart';
 import 'chat_repository_interface.dart';
@@ -13,50 +15,36 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
   ChatRepositoryFirebaseImpl(this._firebaseClient);
 
   static const String _messagesCollectionKey = 'messages';
-  static const int _messagesLimit = 128;
 
   final FirebaseFirestore _firebaseClient;
 
   var _savedLocalName = '';
 
-  final _cachedMessages = SplayTreeSet<ChatMessageData>(_chatComparator);
-
-  static int _chatComparator(ChatMessageData a, ChatMessageData b) {
-    int i;
-    i = b.timestamp.compareTo(a.timestamp);
-    if (i != 0) return i;
-    i = a.author.name.compareTo(b.author.name);
-    if (i != 0) return i;
-    i = a.message.compareTo(b.message);
-    if (i != 0) return i;
-    return 0;
-  }
-
   @override
-  Future<List<ChatMessageData>> get messages async {
+  Future<List<ChatMessageData>> getMessages(int limit,
+      [TimeStamp? lastTimeStamp]) async {
     await Future.delayed(const Duration(seconds: 1));
-    if (_cachedMessages.isEmpty) {
-      _cachedMessages.addAll((await _firebaseClient
+    if (lastTimeStamp == null) {
+      return (await _firebaseClient
               .collection(_messagesCollectionKey)
-              .limit(_messagesLimit)
+              .limit(limit)
               .orderBy('created', descending: true)
               .get())
           .docs
-          .map(_parseFirebaseDataToLocal));
+          .map(_parseFirebaseDataToLocal)
+          .toList();
     } else {
-      _cachedMessages.addAll((await _firebaseClient
+      return (await _firebaseClient
               .collection(_messagesCollectionKey)
-              .limit(_messagesLimit)
+              .limit(limit)
               .where('created',
-                  isGreaterThanOrEqualTo:
-                      Timestamp.fromDate(_cachedMessages.last.timestamp))
+                  isGreaterThanOrEqualTo: Timestamp.fromDate(lastTimeStamp))
               .orderBy('created', descending: true)
               .get())
           .docs
-          .map(_parseFirebaseDataToLocal));
+          .map(_parseFirebaseDataToLocal)
+          .toList();
     }
-
-    return _cachedMessages.toList();
   }
 
   @override
@@ -72,11 +60,11 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     await _firebaseClient.collection(_messagesCollectionKey).add({
-      _MessageFirebaseDto._authorNameKey: username,
-      _MessageFirebaseDto._messageKey: message,
-      _MessageFirebaseDto._createdKey: FieldValue.serverTimestamp(),
+      MessageFirebaseDto._authorNameKey: username,
+      MessageFirebaseDto._messageKey: message,
+      MessageFirebaseDto._createdKey: FieldValue.serverTimestamp(),
       if (data is ChatMessageGeolocatedData)
-        _MessageFirebaseDto._geolocationKey: GeoPoint(
+        MessageFirebaseDto._geolocationKey: GeoPoint(
           data.location.latitude,
           data.location.longitude,
         ),
@@ -108,7 +96,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
   ChatMessageData _parseFirebaseDataToLocal(
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {
-    final parsedData = _MessageFirebaseDto.fromMap(snapshot.data());
+    final parsedData = MessageFirebaseDto.fromMap(snapshot.data());
 
     final ChatUserData author;
     if (parsedData.authorName == _savedLocalName) {
@@ -136,15 +124,15 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
 }
 
 @immutable
-class _MessageFirebaseDto {
-  const _MessageFirebaseDto({
+class MessageFirebaseDto {
+  const MessageFirebaseDto({
     required this.authorName,
     required this.message,
     required this.created,
     required this.geolocation,
   });
 
-  _MessageFirebaseDto.fromMap(Map<String, dynamic> map)
+  MessageFirebaseDto.fromMap(Map<String, dynamic> map)
       : this(
           authorName: map[_authorNameKey] ?? '',
           message: map[_messageKey] ?? '',
@@ -179,7 +167,7 @@ class _MessageFirebaseDto {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is _MessageFirebaseDto &&
+    return other is MessageFirebaseDto &&
         other.authorName == authorName &&
         other.message == message &&
         other.created == created;
@@ -188,13 +176,13 @@ class _MessageFirebaseDto {
   @override
   int get hashCode => authorName.hashCode ^ message.hashCode ^ created.hashCode;
 
-  _MessageFirebaseDto copyWith({
+  MessageFirebaseDto copyWith({
     String? authorName,
     String? message,
     DateTime? created,
     GeoPoint? geolocation,
   }) =>
-      _MessageFirebaseDto(
+      MessageFirebaseDto(
         authorName: authorName ?? this.authorName,
         message: message ?? this.message,
         created: created ?? this.created,
