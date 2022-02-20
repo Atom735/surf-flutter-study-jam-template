@@ -9,6 +9,9 @@ abstract class IService {
   SharedPreferences get sp;
   void dispose();
 
+  String get userName;
+  set userName(String userName);
+
   Future<List<ChatMessageData>> getMessages();
   Future<void> sendMessage(ChatMessageData data);
 }

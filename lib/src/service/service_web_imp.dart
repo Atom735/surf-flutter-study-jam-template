@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,15 +8,25 @@ import '../../firebase_options.dart';
 import '../chat/chat_message_data.dart';
 import '../chat/chat_repository_firebase_impl.dart';
 import '../chat/chat_repository_interface.dart';
-import '../chat/chat_user_data.dart';
-import '../common/geolocation_data.dart';
 import 'service_interface.dart';
 
 class ServiceWebImpl implements IService {
+  late String _userName;
+
+  @override
+  String get userName => _userName;
+
+  @override
+  set userName(String userName) {
+    _userName = userName;
+    sp.setString('user_name', userName);
+  }
+
   @override
   late final Future<String?> initFuture = () async {
     try {
       sp = await SharedPreferences.getInstance();
+      userName = sp.getString('user_name') ?? '';
 
       firebaseApp = await firebaseInitFuture;
       chatRepo = ChatRepositoryFirebaseImpl(FirebaseFirestore.instance);

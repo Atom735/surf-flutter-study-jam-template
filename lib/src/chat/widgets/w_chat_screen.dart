@@ -7,7 +7,6 @@ import '../../common/geolocation_data.dart';
 import '../../service/service_interface.dart';
 import '../../widgets/w_error_msgbox.dart';
 import '../chat_message_data.dart';
-import '../chat_repository_interface.dart';
 import '../chat_user_data.dart';
 import 'w_chat_msg_tile.dart';
 
@@ -27,10 +26,8 @@ class _WChatScreenState extends State<WChatScreen> {
   void initState() {
     super.initState();
     service = widget.service;
-    tcUserName = TextEditingController(
-      text: service.sp.getString('user_name') ?? '',
-    );
-    tcUserName.addListener(() => service.sp.setString('user_name', userName));
+    tcUserName = TextEditingController(text: service.userName);
+    tcUserName.addListener(() => service.userName = userName);
     refresh();
   }
 
