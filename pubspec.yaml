@@ -22,6 +22,7 @@ dependencies:
     sdk: flutter
   intl: ^0.17.0
   meta: ^1.7.0
+  shared_preferences: ^2.0.13
   sqlite3:
     git:
       url: git@github.com:Atom735/sqlite3.dart.git
