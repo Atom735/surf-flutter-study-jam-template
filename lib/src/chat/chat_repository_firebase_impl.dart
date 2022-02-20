@@ -34,6 +34,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
 
   @override
   Future<List<ChatMessageData>> get messages async {
+    await Future.delayed(const Duration(seconds: 1));
     if (_cachedMessages.isEmpty) {
       _cachedMessages.addAll((await _firebaseClient
               .collection(_messagesCollectionKey)
@@ -68,6 +69,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
     }
 
     _savedLocalName = username;
+    await Future.delayed(const Duration(seconds: 1));
 
     await _firebaseClient.collection(_messagesCollectionKey).add({
       _MessageFirebaseDto._authorNameKey: username,

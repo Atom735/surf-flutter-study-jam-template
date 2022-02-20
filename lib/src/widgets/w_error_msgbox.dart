@@ -13,22 +13,30 @@ class WErrorMsgBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SimpleDialog(
         contentPadding: const EdgeInsets.all(16),
+        backgroundColor: Theme.of(context).errorColor,
         title: Row(
           children: [
             Icon(
               Icons.warning,
               size: 32,
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.onError,
             ),
             const SizedBox(width: 16),
             Text(
               title,
               style: TextStyle(
-                color: Theme.of(context).errorColor,
+                color: Theme.of(context).colorScheme.onError,
               ),
             ),
           ],
         ),
-        children: [Text(msg)],
+        children: [
+          Text(
+            msg,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer,
+            ),
+          ),
+        ],
       );
 }
