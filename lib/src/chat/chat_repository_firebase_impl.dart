@@ -23,7 +23,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
 
   static int _chatComparator(ChatMessageData a, ChatMessageData b) {
     int i;
-    i = a.timestamp.compareTo(b.timestamp);
+    i = b.timestamp.compareTo(a.timestamp);
     if (i != 0) return i;
     i = a.author.name.compareTo(b.author.name);
     if (i != 0) return i;
