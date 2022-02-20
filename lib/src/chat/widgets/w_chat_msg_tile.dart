@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/w_error_msgbox.dart';
 import '../chat_message_data.dart';
@@ -32,7 +33,9 @@ class WChatMsgTile extends StatelessWidget {
           ),
           TextButton.icon(
             onPressed: () {
-              WErrorMsgBox.show(context, 'Открыть в картах', 'не реализовано');
+              launch(
+                  'https://www.google.ru/maps/@${data.location.latitude},${data.location.longitude},16z');
+              // WErrorMsgBox.show(context, 'Открыть в картах', 'не реализовано');
             },
             icon: const Icon(Icons.location_on),
             label: Text('Открыть в картах'
