@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
@@ -17,19 +19,47 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
 
   var _savedLocalName = '';
 
-  @override
-  Future<List<ChatMessageData>> get messages async {
-    final result = await _firebaseClient
-        .collection(_messagesCollectionKey)
-        .limit(_messagesLimit)
-        .orderBy('created', descending: true)
-        .get();
+  final _cachedMessages = SplayTreeSet<ChatMessageData>(_chatComparator);
 
-    return result.docs.map(_parseFirebaseDataToLocal).toList();
+  static int _chatComparator(ChatMessageData a, ChatMessageData b) {
+    int i;
+    i = a.timestamp.compareTo(b.timestamp);
+    if (i != 0) return i;
+    i = a.author.name.compareTo(b.author.name);
+    if (i != 0) return i;
+    i = a.message.compareTo(b.message);
+    if (i != 0) return i;
+    return 0;
   }
 
   @override
-  Future<List<ChatMessageData>> sendMessage(ChatMessageData data) async {
+  Future<List<ChatMessageData>> get messages async {
+    if (_cachedMessages.isEmpty) {
+      _cachedMessages.addAll((await _firebaseClient
+              .collection(_messagesCollectionKey)
+              .limit(_messagesLimit)
+              .orderBy('created', descending: true)
+              .get())
+          .docs
+          .map(_parseFirebaseDataToLocal));
+    } else {
+      _cachedMessages.addAll((await _firebaseClient
+              .collection(_messagesCollectionKey)
+              .limit(_messagesLimit)
+              .where('created',
+                  isGreaterThanOrEqualTo:
+                      Timestamp.fromDate(_cachedMessages.last.timestamp))
+              .orderBy('created', descending: true)
+              .get())
+          .docs
+          .map(_parseFirebaseDataToLocal));
+    }
+
+    return _cachedMessages.toList();
+  }
+
+  @override
+  Future<void> sendMessage(ChatMessageData data) async {
     final username = data.author.name;
     final message = data.message;
     _validateName(username);
@@ -49,8 +79,6 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
           data.location.longitude,
         ),
     });
-
-    return messages;
   }
 
   void _validateName(String name) {

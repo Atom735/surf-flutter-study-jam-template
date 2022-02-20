@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/w_error_msgbox.dart';
 import '../chat_message_data.dart';
 import '../chat_repository_interface.dart';
+import '../chat_user_data.dart';
 import 'w_chat_msg_tile.dart';
 
 class WChatScreen extends StatefulWidget {
@@ -24,9 +26,12 @@ class _WChatScreenState extends State<WChatScreen> {
   }
 
   String userName = '';
+  String msg = '';
+  int msgId = 0;
 
   List<ChatMessageData> msgs = [];
   final vnLoading = ValueNotifier(false);
+  final vnSending = ValueNotifier(false);
 
   void messagesHandle(List<ChatMessageData> data) {
     msgs = data;
@@ -34,9 +39,51 @@ class _WChatScreenState extends State<WChatScreen> {
     setState(() {});
   }
 
+  void sendHandle(void _) {
+    vnSending.value = false;
+    msg = '';
+    msgId++;
+    refresh();
+  }
+
   void refresh() {
     vnLoading.value = true;
-    repo.messages.then(messagesHandle);
+    setState(() {});
+    repo.messages.then(
+      messagesHandle,
+      onError: (e) => WErrorMsgBox.show(
+        context,
+        'Ошибка при получении сообщений',
+        e.toString(),
+      ),
+    );
+  }
+
+  void sendMessage([String _ = '']) {
+    if (userName.isEmpty) {
+      WErrorMsgBox.show(
+        context,
+        'Ошибка при отправке сообщения',
+        'Не заполнено поле "Имя пользователя"',
+      );
+      return;
+    }
+    if (msg.isEmpty) {
+      WErrorMsgBox.show(
+        context,
+        'Ошибка при отправке сообщения',
+        'Сообщение не может быть пустым',
+      );
+      return;
+    }
+    repo.sendMessage(ChatMessageData(ChatUserData(userName), msg)).then(
+          sendHandle,
+          onError: (e) => WErrorMsgBox.show(
+            context,
+            'Ошибка при отправке сообщения',
+            e.toString(),
+          ),
+        );
   }
 
   @override
@@ -68,6 +115,35 @@ class _WChatScreenState extends State<WChatScreen> {
               child: ListView(
                 reverse: true,
                 children: msgs.map(WChatMsgTile.new).toList(),
+              ),
+            ),
+            Material(
+              color: Theme.of(context).backgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: vnSending,
+                  builder: (context, value, child) => Column(
+                    children: [
+                      TextField(
+                        key: ValueKey(msgId),
+                        onChanged: (value) => msg = value,
+                        onSubmitted: sendMessage,
+                        maxLines: null,
+                        enabled: !value,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Сообщение',
+                          suffixIcon: IconButton(
+                            onPressed: value ? null : sendMessage,
+                            icon: const Icon(Icons.send),
+                          ),
+                        ),
+                      ),
+                      if (value) const LinearProgressIndicator(),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

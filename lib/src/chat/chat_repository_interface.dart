@@ -8,5 +8,5 @@ abstract class IChatRepository {
   static const int maxMessageLength = 80;
 
   Future<List<ChatMessageData>> get messages;
-  Future<List<ChatMessageData>> sendMessage(ChatMessageData data);
+  Future<void> sendMessage(ChatMessageData data);
 }
