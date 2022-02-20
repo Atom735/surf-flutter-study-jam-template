@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../chat/widgets/w_chat_screen.dart';
 import '../service/service_interface.dart';
 
 class WInitializingScreen extends StatefulWidget {
@@ -17,8 +18,17 @@ class _WInitializingPageState extends State<WInitializingScreen> {
   }
 
   void _onInit(String? errorMsg) {
-    this.errorMsg = errorMsg;
-    setState(() {});
+    if (errorMsg != null) {
+      this.errorMsg = errorMsg;
+      setState(() {});
+      return;
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WChatScreen(widget.service.chatRepo),
+      ),
+    );
   }
 
   String? errorMsg;

@@ -6,7 +6,7 @@ import '../chat/chat_repository_firebase_impl.dart';
 import '../chat/chat_repository_interface.dart';
 import 'service_interface.dart';
 
-class ServiceWindowsImpl implements IService {
+class ServiceWebImpl implements IService {
   @override
   late final Future<String?> initFuture = () async {
     try {
@@ -24,13 +24,14 @@ class ServiceWindowsImpl implements IService {
   }
 
   late final firebaseInitFuture = Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform(
-      androidKey: 'AIzaSyCXU5f25S_SUeVv7cAzoeF373kHk4Hv2dE',
-      iosKey: 'AIzaSyAjvNoe31ZMSakjKFOkhbrZBsj3RyW6plo',
-      webKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
-      windowsKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
-    ),
-  );
+      options:
+          DefaultFirebaseOptions.web('AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs')
+      //   androidKey: 'AIzaSyCXU5f25S_SUeVv7cAzoeF373kHk4Hv2dE',
+      //   iosKey: 'AIzaSyAjvNoe31ZMSakjKFOkhbrZBsj3RyW6plo',
+      //   webKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
+      //   windowsKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
+      // ),
+      );
 
   late FirebaseApp firebaseApp;
   late IChatRepository chatRepo;
