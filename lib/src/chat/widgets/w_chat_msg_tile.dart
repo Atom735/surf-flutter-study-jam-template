@@ -9,6 +9,7 @@ class WChatMsgTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
+        trailing: Text(data.timestamp.toString()),
         title: Text(data.author.name),
         subtitle: Text(data.message),
       );

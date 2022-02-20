@@ -32,8 +32,15 @@ class _WChatScreenState extends State<WChatScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: ListView(
-          children: msgs.map(WChatMsgTile.new).toList(),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                reverse: true,
+                children: msgs.map(WChatMsgTile.new).toList(),
+              ),
+            ),
+          ],
         ),
       );
 }

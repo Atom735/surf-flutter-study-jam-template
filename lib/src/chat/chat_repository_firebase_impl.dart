@@ -11,7 +11,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
   ChatRepositoryFirebaseImpl(this._firebaseClient);
 
   static const String _messagesCollectionKey = 'messages';
-  static const int _messagesLimit = 20;
+  static const int _messagesLimit = 128;
 
   final FirebaseFirestore _firebaseClient;
 
@@ -22,7 +22,7 @@ class ChatRepositoryFirebaseImpl implements IChatRepository {
     final result = await _firebaseClient
         .collection(_messagesCollectionKey)
         .limit(_messagesLimit)
-        .orderBy('created')
+        .orderBy('created', descending: true)
         .get();
 
     return result.docs.map(_parseFirebaseDataToLocal).toList();
