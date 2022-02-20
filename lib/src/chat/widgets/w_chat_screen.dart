@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../common/geolocation_data.dart';
 import '../../service/service_interface.dart';
@@ -78,7 +79,7 @@ class _WChatScreenState extends State<WChatScreen> {
         );
   }
 
-  void sendMessage([String _ = '']) {
+  void sendMessage([Object? _]) {
     final geo = this.geo;
     if (userName.isEmpty) {
       WErrorMsgBox.show(
@@ -201,19 +202,32 @@ class _WChatScreenState extends State<WChatScreen> {
                                 : Theme.of(context).colorScheme.primary,
                           ),
                           Expanded(
-                            child: TextField(
-                              key: ValueKey(msgId),
-                              onChanged: (value) => msg = value,
-                              onSubmitted: sendMessage,
-                              maxLines: null,
-                              enabled: !value,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Сообщение',
-                                suffixIcon: IconButton(
-                                  onPressed: value ? null : sendMessage,
-                                  icon: const Icon(Icons.send),
-                                  tooltip: 'Отправить сообщение',
+                            child: Actions(
+                              actions: {
+                                SubmitIntent: CallbackAction<SubmitIntent>(
+                                    onInvoke: sendMessage),
+                              },
+                              child: Shortcuts(
+                                shortcuts: {
+                                  LogicalKeySet(LogicalKeyboardKey.control,
+                                          LogicalKeyboardKey.enter):
+                                      const SubmitIntent(),
+                                },
+                                child: TextField(
+                                  key: ValueKey(msgId),
+                                  onChanged: (value) => msg = value,
+                                  onSubmitted: sendMessage,
+                                  maxLines: null,
+                                  enabled: !value,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Сообщение',
+                                    suffixIcon: IconButton(
+                                      onPressed: value ? null : sendMessage,
+                                      icon: const Icon(Icons.send),
+                                      tooltip: 'Отправить сообщение',
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -228,4 +242,8 @@ class _WChatScreenState extends State<WChatScreen> {
           ],
         ),
       );
+}
+
+class SubmitIntent extends Intent {
+  const SubmitIntent();
 }
