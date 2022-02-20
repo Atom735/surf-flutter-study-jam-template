@@ -9,7 +9,5 @@ class WHomePage extends StatefulWidget {
 
 class _WHomePageState extends State<WHomePage> {
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(BuildContext context) => Container();
 }

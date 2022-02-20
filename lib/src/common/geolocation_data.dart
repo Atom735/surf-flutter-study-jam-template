@@ -1,17 +1,17 @@
+import 'package:meta/meta.dart';
+
 /// Data transfer object representing geolocation point.
-class ChatGeolocationDto {
+@immutable
+class GeolocationData {
+  const GeolocationData(this.latitude, this.longitude);
+
   /// Latitude, in degrees.
   final double latitude;
 
   /// Longitude, in degrees.
   final double longitude;
 
-  ChatGeolocationDto({
-    required this.latitude,
-    required this.longitude,
-  });
-
   @override
   String toString() =>
-      'ChatGeolocationDto(latitude: $latitude, longitude: $longitude)';
+      'GeolocationData(latitude: $latitude, longitude: $longitude)';
 }
