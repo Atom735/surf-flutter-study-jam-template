@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import '/data/chat/repository/firebase.dart';
-import '/firebase_options.dart';
-import '/screens/chat.dart';
 
-void main() async {
+import 'data/chat/repository/firebase.dart';
+import 'firebase_options.dart';
+import 'screens/chat.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(
-      androidKey: 'enter android key here',
-      iosKey: 'enter ios key here',
-      webKey: 'enter web key here',
+      androidKey: 'AIzaSyCXU5f25S_SUeVv7cAzoeF373kHk4Hv2dE',
+      iosKey: 'AIzaSyAjvNoe31ZMSakjKFOkhbrZBsj3RyW6plo',
+      webKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
+      windowsKey: 'AIzaSyD40PR_fizjSYtCZEtXgwq_5LdJu2w2zIs',
     ),
   );
 

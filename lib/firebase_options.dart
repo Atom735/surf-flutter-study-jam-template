@@ -18,22 +18,36 @@ class DefaultFirebaseOptions {
     required String webKey,
     required String iosKey,
     required String androidKey,
+    required String windowsKey,
   }) {
     if (kIsWeb) {
       return web(webKey);
     }
-    // ignore: missing_enum_constant_in_switch
     switch (defaultTargetPlatform) {
+      case TargetPlatform.windows:
+        return windows(windowsKey);
       case TargetPlatform.android:
         return android(androidKey);
       case TargetPlatform.iOS:
         return ios(iosKey);
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported'
+          ' (${defaultTargetPlatform.name}).',
+        );
     }
-
-    throw UnsupportedError(
-      'DefaultFirebaseOptions are not supported for this platform.',
-    );
   }
+
+  static FirebaseOptions windows(String apiKey) => FirebaseOptions(
+        apiKey: apiKey,
+        appId: '1:733105866417:web:c5e6c12528326f5f42c490',
+        messagingSenderId: '733105866417',
+        projectId: 'flutter-study-jam-chat',
+        authDomain: 'flutter-study-jam-chat.firebaseapp.com',
+        storageBucket: 'flutter-study-jam-chat.appspot.com',
+      );
 
   static FirebaseOptions web(String apiKey) => FirebaseOptions(
         apiKey: apiKey,
