@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_practice_chat_flutter/data/chat/repository/firebase.dart';
-import 'package:surf_practice_chat_flutter/firebase_options.dart';
-import 'package:surf_practice_chat_flutter/screens/chat.dart';
+import '/data/chat/repository/firebase.dart';
+import '/firebase_options.dart';
+import '/screens/chat.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +15,7 @@ void main() async {
       webKey: 'enter web key here',
     ),
   );
-  
+
   runApp(const MyApp());
 }
 

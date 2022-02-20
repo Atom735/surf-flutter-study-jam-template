@@ -1,6 +1,6 @@
-import 'package:surf_practice_chat_flutter/data/chat/models/geolocation.dart';
-import 'package:surf_practice_chat_flutter/data/chat/models/message.dart';
-import 'package:surf_practice_chat_flutter/data/chat/models/user.dart';
+import '/data/chat/models/geolocation.dart';
+import '/data/chat/models/message.dart';
+import '/data/chat/models/user.dart';
 
 /// Chat data holder.
 ///

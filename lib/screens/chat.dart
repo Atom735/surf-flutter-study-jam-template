@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:surf_practice_chat_flutter/data/chat/repository/repository.dart';
+import '/data/chat/repository/repository.dart';
 
 /// Chat screen templete. This is your starting point.
 class ChatScreen extends StatefulWidget {
