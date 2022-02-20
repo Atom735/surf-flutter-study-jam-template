@@ -20,6 +20,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0
+  meta: ^1.7.0
   sqlite3:
     git:
       url: git@github.com:Atom735/sqlite3.dart.git
@@ -35,3 +37,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # Enable generation of localized Strings from arb files.
+  generate: true
