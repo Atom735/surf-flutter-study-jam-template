@@ -1,1 +1,5 @@
 include: package:atmos_lints/lints.yaml
+
+analyzer:
+  exclude:
+    - lib/generated_plugin_registrant.dart
