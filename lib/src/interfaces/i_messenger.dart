@@ -27,10 +27,17 @@ abstract class IMessenger implements IDisposible {
   IChatRoom createNewChatRoom();
 }
 
+/// Состояние мессенджера
 enum MessengerStatus {
+  /// Создан
   created,
+
+  /// Ошибка, не позволяющая дальнейшую работу
   errored,
+
+  /// В процессе инициализации
   initializing,
-  authorization,
+
+  /// Ресурсы освобождены, приложение закрыто
   disposed,
 }
