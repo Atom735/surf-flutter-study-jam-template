@@ -5,7 +5,11 @@ import '../interfaces/i_widgets_factory.dart';
 import 'w_widgets_factory_provider.dart';
 
 mixin WWidgetsFactoryMixin<T extends StatefulWidget> on State<T> {
+  /// Интерфейс представляющий набор методов и функций для построения виджетов.
+  /// А также предоставляет доступ к интерфейсу [IMessenger].
   late IWidgetsFactory wfactory;
+
+  /// Интрфейс мессенджера. Через него происходит всё управление приложением.
   IMessenger get messenger => wfactory.messenger;
 
   var _factoryGetted = false;

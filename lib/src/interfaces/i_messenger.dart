@@ -3,6 +3,7 @@ import 'i_chat_room.dart';
 import 'i_chat_rooms_list.dart';
 import 'i_disposible.dart';
 
+/// Интрфейс мессенджера. Через него происходит всё управление приложением.
 abstract class IMessenger implements IDisposible {
   /// Версия мессенджера
   String get version;

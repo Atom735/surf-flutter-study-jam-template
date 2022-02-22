@@ -1,5 +1,4 @@
 import '../common/mock.dart';
-import '../common/random_gen.dart';
 import '../interfaces/i_account.dart';
 import '../interfaces/i_chat_room.dart';
 import '../interfaces/i_chat_rooms_list.dart';

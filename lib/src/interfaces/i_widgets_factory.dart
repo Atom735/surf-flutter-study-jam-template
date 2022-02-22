@@ -4,7 +4,15 @@ import 'i_chat_room.dart';
 import 'i_messenger.dart';
 import 'i_user.dart';
 
-/// Фабрика виджетов приложения
+/// Интерфейс представляющий набор методов и функций для построения виджетов.
+/// А также предоставляет доступ к интерфейсу [IMessenger].
+///
+/// Планируется под каждую платформу иметь свои экземпляры, которые будут
+/// иметь свои собственные реализации [IMessenger], из за чего будет происходить
+/// разделение зависимых пакетов от метода сборки.
+///
+/// Например под веб можно и нужно будет реализовать ленивую загрузку пакетов
+/// https://dart.dev/guides/language/language-tour#:~:text=Lazily%20loading%20a%20library
 abstract class IWidgetsFactory {
   /// Инстанс который должен заполнится в main.dart
   static late IWidgetsFactory instance;

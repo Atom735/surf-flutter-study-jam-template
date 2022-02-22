@@ -1,10 +1,9 @@
-import 'package:atmos_surf_chat/src/widgets/w_widgets_l10n_mixin.dart';
 import 'package:flutter/material.dart';
 
-import '../common/l10n.dart';
 import '../common/misc_flutter.dart';
 import 'w_error_msg_box.dart';
 import 'w_widgets_factory_mixin.dart';
+import 'w_widgets_l10n_mixin.dart';
 
 class WInitializingScreen extends StatefulWidget {
   const WInitializingScreen({Key? key}) : super(key: key);
