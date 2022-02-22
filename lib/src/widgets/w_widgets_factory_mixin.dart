@@ -10,6 +10,10 @@ mixin WWidgetsFactoryMixin<T extends StatefulWidget> on State<T> {
 
   var _factoryGetted = false;
 
+  /// Метод который вызывается, когда произошло получение [wfactory].
+  /// По сути вызывается один после [initState] только
+  /// внутри уже имеется доступ к [context].
+  @mustCallSuper
   void onFactoryGetted() {}
 
   @override

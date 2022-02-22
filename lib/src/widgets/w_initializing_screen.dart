@@ -1,3 +1,4 @@
+import 'package:atmos_surf_chat/src/widgets/w_widgets_l10n_mixin.dart';
 import 'package:flutter/material.dart';
 
 import '../common/l10n.dart';
@@ -12,12 +13,13 @@ class WInitializingScreen extends StatefulWidget {
 }
 
 class _WInitializingPageState extends State<WInitializingScreen>
-    with WWidgetsFactoryMixin<WInitializingScreen> {
+    with
+        WWidgetsFactoryMixin<WInitializingScreen>,
+        WWidgetsL10nMixin<WInitializingScreen> {
   bool initialized = false;
   Object? error;
   TextStyle? tsLarge;
   Widget? cachedBuild;
-  S? s;
 
   void onInitEnd(_) {
     if (!mounted) return;
@@ -36,7 +38,7 @@ class _WInitializingPageState extends State<WInitializingScreen>
     showDialog(
       context: context,
       builder: WErrorMsgBox(
-        s!.app_loading_error,
+        s.app_loading_error,
         msg: e.toString(),
       ).build,
     ).then(handleRestartInit);
@@ -56,7 +58,16 @@ class _WInitializingPageState extends State<WInitializingScreen>
   }
 
   @override
-  void onFactoryGetted() => handleRestartInit();
+  void onFactoryGetted() {
+    super.onFactoryGetted();
+    handleRestartInit();
+  }
+
+  @override
+  void onL10nUpdated() {
+    super.onL10nUpdated();
+    cachedBuild = null;
+  }
 
   @override
   void didChangeDependencies() {
@@ -64,11 +75,6 @@ class _WInitializingPageState extends State<WInitializingScreen>
     final tsLargeNew = Theme.of(context).typography.englishLike.displayLarge;
     if (tsLarge != tsLargeNew) {
       tsLarge = tsLargeNew;
-      cachedBuild = null;
-    }
-    final ns = S.of(context);
-    if (s != ns) {
-      s = ns;
       cachedBuild = null;
     }
   }
@@ -87,7 +93,7 @@ class _WInitializingPageState extends State<WInitializingScreen>
                     height: 128,
                     child: CircularProgressIndicator(strokeWidth: 8),
                   ),
-                  Text(s!.app_loading, style: tsLarge!)
+                  Text(s.app_loading, style: tsLarge),
                 ],
               ),
             ),
