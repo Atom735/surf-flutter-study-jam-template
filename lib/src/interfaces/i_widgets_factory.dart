@@ -28,6 +28,12 @@ abstract class IWidgetsFactory {
     List<Widget>? actions,
   });
 
+  /// Показывает информаци о пользователе
+  Future<T?> showUserInfo<T>(BuildContext context, UserId userId);
+
+  /// Показывает информаци о чат комнате
+  Future<T?> showChatRoomInfo<T>(BuildContext context, ChatRoomId userId);
+
   /// Создаёт экран загрузки приложения
   Widget buildInitializingSreen(BuildContext context);
 
@@ -37,15 +43,12 @@ abstract class IWidgetsFactory {
   /// Создаёт главный отображаемый экран
   Widget buildMainScreen(BuildContext context);
 
-  /// Создаёт виджет домашнего экрана
-  Widget buildMenu(BuildContext context);
-
-  /// Создаёт виджет экрана пользователя
-  Widget buildUserScreen(BuildContext context, UserId id);
-
-  /// Создаёт виджет выбора чата
+  /// Создаёт экран выбора чата
   Widget buildChatListScreen(BuildContext context);
 
-  /// Создаёт виджет чата
-  Widget buildChatRoomScreen(BuildContext context, ChatRoomId id);
+  /// Создаёт экран чат комнаты
+  Widget buildChatRoomScreen(BuildContext context);
+
+  /// Создаёт виджет домашнего экрана
+  Widget buildMenu(BuildContext context);
 }
