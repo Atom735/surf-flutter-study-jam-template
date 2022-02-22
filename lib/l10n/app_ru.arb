@@ -1,4 +1,4 @@
 {
-  "app_loading": "Загрузка...",
-  "app_loading_error": "Ошибка во время загрузки"
+  "app_loading": "Инициализация...",
+  "app_loading_error": "Ошибка иницализации"
 }

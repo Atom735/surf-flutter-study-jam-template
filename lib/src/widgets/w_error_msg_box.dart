@@ -10,6 +10,9 @@ class WErrorMsgBox extends StatelessWidget {
   final Widget? content;
   final List<Widget>? actions;
 
+  Future<T?> show<T>(BuildContext context) =>
+      showDialog<T>(context: context, builder: build);
+
   @override
   Widget build(BuildContext context) {
     var content = this.content;

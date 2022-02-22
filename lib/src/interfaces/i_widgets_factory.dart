@@ -15,8 +15,21 @@ abstract class IWidgetsFactory {
   /// Создание корневого виджета
   Widget get rootWidget;
 
+  /// Показывает сообщение об ошибке
+  /// - [title] Заголовок (Тип ошибки)
+  /// - [msg] Сообщение об ошибке (Не используется если задан [content])
+  /// - [content] Кастомный виджет отображаемый в диалоге (Не обязательно)
+  /// - [actions] Список кнопок выплывающего бокса
+  Future<T?> showErrorMsgBox<T>(
+    BuildContext context,
+    String title, {
+    String? msg,
+    Widget? content,
+    List<Widget>? actions,
+  });
+
   /// Создаёт экран загрузки приложения
-  Widget buildSplashSreen(BuildContext context);
+  Widget buildInitializingSreen(BuildContext context);
 
   /// Создаёт экран авторизации
   Widget buildAuthSreen(BuildContext context);

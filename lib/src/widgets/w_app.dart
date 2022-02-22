@@ -2,15 +2,12 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 
 import '../common/l10n.dart';
-import '../interfaces/i_widgets_factory.dart';
+import 'w_widgets_factory_provider.dart';
 
 class WApp extends StatefulWidget {
-  const WApp(
-    this.factory, {
+  const WApp({
     Key? key,
   }) : super(key: key);
-
-  final IWidgetsFactory factory;
 
   @override
   WAppState createState() => WAppState();
@@ -73,6 +70,7 @@ class WAppState extends State<WApp> {
         supportedLocales: S.supportedLocales,
         color: Colors.purple.shade400,
         theme: theme,
-        home: widget.factory.buildSplashSreen(context),
+        home:
+            WWidgetFactoryProvider.of(context).buildInitializingSreen(context),
       );
 }

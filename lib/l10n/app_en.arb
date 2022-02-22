@@ -1,4 +1,4 @@
 {
-  "app_loading": "Loading...",
-  "app_loading_error": "Error when loading"
+  "app_loading": "Initializing...",
+  "app_loading_error": "Initializations error"
 }

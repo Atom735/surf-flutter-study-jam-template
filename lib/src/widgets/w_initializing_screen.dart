@@ -4,18 +4,18 @@ import '../common/l10n.dart';
 import '../common/misc_flutter.dart';
 import '../interfaces/i_messenger.dart';
 import '../interfaces/i_widgets_factory.dart';
-import 'w_error_msgbox.dart';
+import 'w_error_msg_box.dart';
+import 'w_widgets_factory_provider.dart';
 
 class WInitializingScreen extends StatefulWidget {
-  const WInitializingScreen(this.factory, {Key? key}) : super(key: key);
-  final IWidgetsFactory factory;
+  const WInitializingScreen({Key? key}) : super(key: key);
   @override
   State<WInitializingScreen> createState() => _WInitializingPageState();
 }
 
 class _WInitializingPageState extends State<WInitializingScreen> {
-  IWidgetsFactory get factory => widget.factory;
-  IMessenger get messenger => factory.messenger;
+  IWidgetsFactory? factory;
+  IMessenger get messenger => factory!.messenger;
 
   bool initialized = false;
   Object? error;
@@ -29,7 +29,7 @@ class _WInitializingPageState extends State<WInitializingScreen> {
     updateState();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: factory.buildMainScreen),
+      MaterialPageRoute(builder: factory!.buildMainScreen),
     );
   }
 
@@ -55,12 +55,6 @@ class _WInitializingPageState extends State<WInitializingScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    handleRestart();
-  }
-
-  @override
   void dispose() {
     messenger.dispose();
     super.dispose();
@@ -69,6 +63,13 @@ class _WInitializingPageState extends State<WInitializingScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final factoryNew = WWidgetFactoryProvider.of(context);
+    if (factory == null) {
+      factory = factoryNew;
+      handleRestart();
+    } else if (factory != factoryNew) {
+      throw Exception('WWidgetFactoryProvider не должен обновляться');
+    }
     final tsLargeNew = Theme.of(context).typography.englishLike.displayLarge;
     if (tsLarge != tsLargeNew) {
       tsLarge = tsLargeNew;
