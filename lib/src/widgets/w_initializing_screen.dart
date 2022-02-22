@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../common/l10n.dart';
 import '../common/misc_flutter.dart';
-import '../interfaces/i_messenger.dart';
-import '../interfaces/i_widgets_factory.dart';
 import 'w_error_msg_box.dart';
-import 'w_widgets_factory_provider.dart';
+import 'w_widgets_factory_mixin.dart';
 
 class WInitializingScreen extends StatefulWidget {
   const WInitializingScreen({Key? key}) : super(key: key);
@@ -13,10 +11,8 @@ class WInitializingScreen extends StatefulWidget {
   State<WInitializingScreen> createState() => _WInitializingPageState();
 }
 
-class _WInitializingPageState extends State<WInitializingScreen> {
-  IWidgetsFactory? factory;
-  IMessenger get messenger => factory!.messenger;
-
+class _WInitializingPageState extends State<WInitializingScreen>
+    with WWidgetsFactoryMixin<WInitializingScreen> {
   bool initialized = false;
   Object? error;
   TextStyle? tsLarge;
@@ -29,7 +25,7 @@ class _WInitializingPageState extends State<WInitializingScreen> {
     updateState();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: factory!.buildMainScreen),
+      MaterialPageRoute(builder: wfactory.buildMainScreen),
     );
   }
 
@@ -43,11 +39,10 @@ class _WInitializingPageState extends State<WInitializingScreen> {
         s!.app_loading_error,
         msg: e.toString(),
       ).build,
-    ).then(handleRestart);
+    ).then(handleRestartInit);
   }
 
-  /// Опциональный параметр необходим для установки функции в Future.then
-  void handleRestart([_]) {
+  void handleRestartInit([_]) {
     if (!mounted) return;
     initialized = false;
     messenger.init().then(onInitEnd, onError: onInitError);
@@ -61,15 +56,11 @@ class _WInitializingPageState extends State<WInitializingScreen> {
   }
 
   @override
+  void onFactoryGetted() => handleRestartInit();
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final factoryNew = WWidgetFactoryProvider.of(context);
-    if (factory == null) {
-      factory = factoryNew;
-      handleRestart();
-    } else if (factory != factoryNew) {
-      throw Exception('WWidgetFactoryProvider не должен обновляться');
-    }
     final tsLargeNew = Theme.of(context).typography.englishLike.displayLarge;
     if (tsLarge != tsLargeNew) {
       tsLarge = tsLargeNew;

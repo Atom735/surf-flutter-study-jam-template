@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 
 import '../common/l10n.dart';
-import 'w_widgets_factory_provider.dart';
+import 'w_widgets_factory_mixin.dart';
 
 class WApp extends StatefulWidget {
   const WApp({
@@ -13,7 +13,7 @@ class WApp extends StatefulWidget {
   WAppState createState() => WAppState();
 }
 
-class WAppState extends State<WApp> {
+class WAppState extends State<WApp> with WWidgetsFactoryMixin<WApp> {
   ThemeData theme = ThemeData(
     brightness: Brightness.dark,
     platform: defaultTargetPlatform,
@@ -70,7 +70,6 @@ class WAppState extends State<WApp> {
         supportedLocales: S.supportedLocales,
         color: Colors.purple.shade400,
         theme: theme,
-        home:
-            WWidgetFactoryProvider.of(context).buildInitializingSreen(context),
+        home: wfactory.buildInitializingSreen(context),
       );
 }
