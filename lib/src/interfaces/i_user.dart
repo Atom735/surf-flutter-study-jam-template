@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import 'i_chat_room.dart';
 import 'i_id.dart';
 
 abstract class IUser {
@@ -24,6 +25,9 @@ abstract class IUser {
   /// Последняя активность пользователя по UTC.
   /// - Значение `null` означает что пользователь предпочёл скрыть эти данные.
   DateTime? get lastActivity;
+
+  /// Открывает личный чат с пользователем
+  IChatRoom openChatWithUser();
 }
 
 @immutable

@@ -6,8 +6,14 @@ import 'i_user.dart';
 
 /// Фабрика виджетов приложения
 abstract class IWidgetsFactory {
+  /// Инстанс который должен заполнится в main.dart
+  static late IWidgetsFactory instance;
+
   /// Интерфейс приложения
   IMessenger get messenger;
+
+  /// Создание корневого виджета
+  Widget get rootWidget;
 
   /// Создаёт экран загрузки приложения
   Widget buildSplashSreen(BuildContext context);
