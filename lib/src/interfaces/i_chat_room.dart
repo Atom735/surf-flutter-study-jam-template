@@ -5,23 +5,23 @@ import 'i_id.dart';
 import 'i_user.dart';
 
 abstract class IChatRoom implements IDisposible {
-  /// Пользователи связанные с этой комнатой и их никнеймы в этой комнате
-  /// В случае отсутсвия, отображается их Имя
-  Future<Map<IUser, String?>> get users;
+  /// Айди чата.
+  ChatRoomId get id;
 
-  ///
-  bool get initialized;
+  /// Пользователи связанные с этой комнатой и их никнеймы в этой комнате.
+  /// В случае отсутсвия, отображается их Имя.
+  Future<Map<IUser, String?>> get users;
 }
 
 @immutable
 class ChatRoomId implements IId<IChatRoom, int> {
   @literal
-  const ChatRoomId(this.id);
+  const ChatRoomId(this.value);
 
-  /// Неизвестный айди чата, используется в момент создания нового чата
-  /// После его создания, возвращается настоящий айди
+  /// Неизвестный айди чата, используется в момент создания нового чата.
+  /// После его создания, возвращается настоящий айди.
   static const unknown = ChatRoomId(0);
 
   @override
-  final int id;
+  final int value;
 }

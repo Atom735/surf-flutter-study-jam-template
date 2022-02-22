@@ -18,4 +18,7 @@ abstract class IMessenger implements IDisposible {
   /// (Не должен происходить повторный вызов этой функции пока не завершится
   /// предыдущий вызов)
   Future<IChatRoom> createNewChatRoom();
+
+  /// Получает список чатов
+  Future<List<IChatRoom>> getChats();
 }
