@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../chat/widgets/w_chat_screen.dart';
+import '../common/l10n.dart';
 import '../common/misc_flutter.dart';
 import '../interfaces/i_messenger.dart';
 import '../interfaces/i_widgets_factory.dart';
-import '../service/service_interface.dart';
 import 'w_error_msgbox.dart';
 
 class WInitializingScreen extends StatefulWidget {
@@ -17,8 +16,12 @@ class WInitializingScreen extends StatefulWidget {
 class _WInitializingPageState extends State<WInitializingScreen> {
   IWidgetsFactory get factory => widget.factory;
   IMessenger get messenger => factory.messenger;
+
   bool initialized = false;
   Object? error;
+  TextStyle? tsLarge;
+  Widget? cachedBuild;
+  S? s;
 
   void onInitEnd(_) {
     if (!mounted) return;
@@ -34,14 +37,17 @@ class _WInitializingPageState extends State<WInitializingScreen> {
     if (!mounted) return;
     error = e;
     updateState();
-    WErrorMsgBox.show(
-      context,
-      'Ошибка при инициализации приложения',
-      e.toString(),
-    );
+    showDialog(
+      context: context,
+      builder: WErrorMsgBox(
+        s!.app_loading_error,
+        msg: e.toString(),
+      ).build,
+    ).then(handleRestart);
   }
 
-  void handleRestart() {
+  /// Опциональный параметр необходим для установки функции в Future.then
+  void handleRestart([_]) {
     if (!mounted) return;
     initialized = false;
     messenger.init().then(onInitEnd, onError: onInitError);
@@ -60,15 +66,17 @@ class _WInitializingPageState extends State<WInitializingScreen> {
     super.dispose();
   }
 
-  TextStyle? tsLarge;
-  Widget? cachedBuild;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final tsLargeNew = Theme.of(context).typography.englishLike.displayLarge;
     if (tsLarge != tsLargeNew) {
       tsLarge = tsLargeNew;
+      cachedBuild = null;
+    }
+    final ns = S.of(context);
+    if (s != ns) {
+      s = ns;
       cachedBuild = null;
     }
   }
@@ -87,7 +95,7 @@ class _WInitializingPageState extends State<WInitializingScreen> {
                     height: 128,
                     child: CircularProgressIndicator(strokeWidth: 8),
                   ),
-                  Text('Идёт загрузка', style: tsLarge)
+                  Text(s!.app_loading, style: tsLarge!)
                 ],
               ),
             ),

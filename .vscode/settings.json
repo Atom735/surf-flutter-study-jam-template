@@ -1,6 +1,5 @@
 {
   "files.exclude": {
-    "**/.dart_tool": true,
     "**/.metadata": true,
     "**/.packages": true,
     "**/*.db": true,

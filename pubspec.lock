@@ -34,7 +34,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "23c6b19046ee1450c5767e2f6cbbdb4558e9b7b4"
+      resolved-ref: e17751d0623749db95a66d356717198758c1cc0e
       url: "git@github.com:Atom735/atmos_binary_buffer.git"
     source: git
     version: "0.0.1"
@@ -43,7 +43,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "589318d3682b5fac84da2941e0a2624804255629"
+      resolved-ref: d78ca59706ebee4f23ebc98a604f7c7121f3c260
       url: "git@github.com:Atom735/atmos_lints.git"
     source: git
     version: "0.0.1"
@@ -52,7 +52,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cc52ad8f548b46178fecc806844216c1ab90d2c6
+      resolved-ref: "3eb0e8713ca02a2d2563ae29354594ec545552f4"
       url: "git@github.com:Atom735/atmos_logger.git"
     source: git
     version: "0.0.1"

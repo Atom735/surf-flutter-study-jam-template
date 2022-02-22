@@ -1,12 +1,8 @@
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../common/misc_flutter.dart';
-import '../interfaces/i_messenger.dart';
+import '../common/l10n.dart';
 import '../interfaces/i_widgets_factory.dart';
-import '../service/w_service_provider.dart';
-import 'w_initializing_screen.dart';
 
 class WApp extends StatefulWidget {
   const WApp(
@@ -73,12 +69,8 @@ class WAppState extends State<WApp> {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: const Locale('ru'),
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('ru')],
+        localizationsDelegates: S.localizationsDelegates,
+        supportedLocales: S.supportedLocales,
         color: Colors.purple.shade400,
         theme: theme,
         home: widget.factory.buildSplashSreen(context),
