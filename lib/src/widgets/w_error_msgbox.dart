@@ -27,6 +27,7 @@ class WErrorMsgBox extends StatelessWidget {
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onError,
               ),
+              softWrap: true,
             ),
           ],
         ),

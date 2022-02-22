@@ -42,3 +42,30 @@ class UserId implements IId<IUser, int> {
   @override
   final int value;
 }
+
+@immutable
+class UserUnimplemented implements IUser {
+  @literal
+  const UserUnimplemented();
+
+  @override
+  UserId get id => throw UnimplementedError();
+
+  @override
+  String get firstName => throw UnimplementedError();
+
+  @override
+  String get lastName => throw UnimplementedError();
+
+  @override
+  String get userName => throw UnimplementedError();
+
+  @override
+  String? get phoneNumber => throw UnimplementedError();
+
+  @override
+  DateTime? get lastActivity => throw UnimplementedError();
+
+  @override
+  IChatRoom openChatWithUser() => throw UnimplementedError();
+}

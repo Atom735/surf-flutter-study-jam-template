@@ -2,11 +2,19 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../common/misc_flutter.dart';
+import '../interfaces/i_messenger.dart';
+import '../interfaces/i_widgets_factory.dart';
 import '../service/w_service_provider.dart';
 import 'w_initializing_screen.dart';
 
 class WApp extends StatefulWidget {
-  const WApp({Key? key}) : super(key: key);
+  const WApp(
+    this.factory, {
+    Key? key,
+  }) : super(key: key);
+
+  final IWidgetsFactory factory;
 
   @override
   WAppState createState() => WAppState();
@@ -73,12 +81,6 @@ class WAppState extends State<WApp> {
         supportedLocales: const [Locale('ru')],
         color: Colors.purple.shade400,
         theme: theme,
-        home: WInitializingScreen(WServiceProvider.of(context)),
+        home: widget.factory.buildSplashSreen(context),
       );
-
-  @override
-  void dispose() {
-    WServiceProvider.of(context).dispose();
-    super.dispose();
-  }
 }

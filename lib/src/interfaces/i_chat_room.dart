@@ -25,3 +25,20 @@ class ChatRoomId implements IId<IChatRoom, int> {
   @override
   final int value;
 }
+
+@immutable
+class ChatRoomUnimplemented implements IChatRoom {
+  @literal
+  const ChatRoomUnimplemented();
+  @override
+  ChatRoomId get id => throw UnimplementedError();
+
+  @override
+  Future<Map<IUser, String?>> get users => throw UnimplementedError();
+
+  @override
+  bool get isDisposed => throw UnimplementedError();
+
+  @override
+  Future dispose() => throw UnimplementedError();
+}
