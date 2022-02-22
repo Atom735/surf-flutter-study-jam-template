@@ -8,3 +8,29 @@ void main() {
   final service = ServiceWebImpl();
   runApp(WServiceProvider(service, child: const WApp()));
 }
+
+class MyWidget extends StatefulWidget {
+  const MyWidget(this.index, {this.cached = false, Key? key}) : super(key: key);
+
+  final bool cached;
+  final int index;
+
+  @override
+  _MyWidgetState createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  int get index => widget.index;
+  bool get cached => widget.cached;
+  @override
+  void initState() {
+    super.initState();
+    print('$this($cached  $index): Created');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('$this($cached $index): Rebuilded');
+    return ListTile(title: Text('$index'));
+  }
+}
