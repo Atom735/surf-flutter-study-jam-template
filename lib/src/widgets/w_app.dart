@@ -66,8 +66,8 @@ class WAppState extends State<WApp> with WWidgetsFactoryMixin<WApp> {
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: const Locale('ru'),
-        localizationsDelegates: S.localizationsDelegates,
-        supportedLocales: S.supportedLocales,
+        // localizationsDelegates: S.localizationsDelegates,
+        // supportedLocales: S.supportedLocales,
         color: Colors.purple.shade400,
         theme: theme,
         home: wfactory.buildInitializingSreen(context),

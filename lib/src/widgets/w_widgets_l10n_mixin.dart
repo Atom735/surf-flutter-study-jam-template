@@ -4,7 +4,7 @@ import '../common/l10n.dart';
 
 mixin WWidgetsL10nMixin<T extends StatefulWidget> on State<T> {
   /// Объкт представляющий локализацию
-  late S s;
+  // late S s;
 
   var _l10nGetted = false;
 
@@ -16,12 +16,12 @@ mixin WWidgetsL10nMixin<T extends StatefulWidget> on State<T> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final sNew = S.of(context);
-    assert(sNew == null, 'Отсутсвует AppLocaliation выше по дереву');
-    if (!_l10nGetted || s != sNew) {
-      _l10nGetted = true;
-      s = sNew!;
-      onL10nUpdated();
-    }
+    // // final sNew = S.of(context);
+    // assert(sNew == null, 'Отсутсвует AppLocaliation выше по дереву');
+    // if (!_l10nGetted || s != sNew) {
+    //   _l10nGetted = true;
+    //   s = sNew!;
+    //   onL10nUpdated();
+    // }
   }
 }

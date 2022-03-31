@@ -17,7 +17,7 @@ class Mock {
   Mock({
     this.mockDelayMin = const Duration(milliseconds: 50),
     this.mockDelayAdd = const Duration(milliseconds: 333),
-    this.mockThrowsChance = 0.1,
+    this.mockThrowsChance = 0.0,
   });
   Mock.copy(Mock? v)
       : this(

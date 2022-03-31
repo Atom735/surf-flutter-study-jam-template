@@ -37,7 +37,7 @@ class _WInitializingPageState extends State<WInitializingScreen>
     showDialog(
       context: context,
       builder: WErrorMsgBox(
-        s.app_loading_error,
+        'ошибка загрузки',
         msg: e.toString(),
       ).build,
     ).then(handleRestartInit);
@@ -92,7 +92,7 @@ class _WInitializingPageState extends State<WInitializingScreen>
                     height: 128,
                     child: CircularProgressIndicator(strokeWidth: 8),
                   ),
-                  Text(s.app_loading, style: tsLarge),
+                  Text('init....', style: tsLarge),
                 ],
               ),
             ),
